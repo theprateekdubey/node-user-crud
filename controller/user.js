@@ -51,10 +51,10 @@ exports.deleteUser = async (req, res) => {
 
       data.splice(targetIndex, 1);
 
-      res.status(200).json({ message: "User Deleted" });
+      res.status(204).json({ message: "User Deleted" });
     }
   } catch (error) {
-    res.status(404).json({ message: "User Not Found" });
+    res.status(400).json({ message: "User Not Found" });
   }
 };
 
@@ -68,9 +68,11 @@ exports.getUserById = async (req, res) => {
     });
     if (found) {
       res.status(200).json(found);
+    } else {
+      res.status(404).json({ message: "UserId is invalid" });
     }
   } catch (error) {
-    res.status(404).json({ message: "UserId is invalid" });
+    res.status(404).json({ message: "Not an valid id" });
   }
 };
 
@@ -94,11 +96,13 @@ exports.updateUser = async (req, res) => {
 
       data.splice(targetIndex, 1, updateData);
 
-      res.status(201).json({ message: "data updated" });
+      res.status(200).json({ message: "data updated" });
+    } else {
+      res.status(404).json({ message: "User Id not matched" });
     }
   } catch (error) {
-    res.status(404).json({
-      message: "id not matched",
+    res.status(400).json({
+      message: "Invalid user Id",
     });
   }
 };
